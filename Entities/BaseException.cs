@@ -1,4 +1,5 @@
 ﻿using ApiExceptionPipelineV2._0.Interfaces;
+using ApiExceptionPipelineV2._0.Services;
 using System.Net;
 
 namespace ApiExceptionPipelineV2._0.Entities

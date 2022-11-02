@@ -1,10 +1,9 @@
 ﻿using ApiExceptionPipelineV2._0.Entities;
 using ApiExceptionPipelineV2._0.ViewModels;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 
-namespace ApiExceptionPipelineV2._0
+namespace ApiExceptionPipelineV2._0.Services
 {
     internal class ExceptionService
     {
@@ -30,7 +29,7 @@ namespace ApiExceptionPipelineV2._0
 
             var exceptionTypeName = exception.GetType()!.BaseType!.Name;
 
-            switch(exceptionTypeName)
+            switch (exceptionTypeName)
             {
                 case nameof(BaseException):
                     response.StatusCode = (int)(exception as BaseException)!.StatusCode;
@@ -43,8 +42,6 @@ namespace ApiExceptionPipelineV2._0
             }
 
             return response;
-
-
         }
     }
 }

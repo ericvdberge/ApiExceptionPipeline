@@ -1,10 +1,11 @@
 ﻿using ApiExceptionPipelineV2._0.Entities;
+using ApiExceptionPipelineV2._0.Services;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
 
-namespace ApiExceptionPipelineV2._0
+namespace ApiExceptionPipelineV2._0.Middleware
 {
     public class ExceptionPipelineMiddleware
     {
@@ -28,14 +29,15 @@ namespace ApiExceptionPipelineV2._0
         public async Task InvokeAsync(HttpContext context)
         {
             _exceptionService = new ExceptionService(context, _exceptionDecoder);
-            
+
             try
             {
                 // Call the next delegate/middleware in the pipeline.
                 await _next.Invoke(context);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
+                //get the information about the mapped exception
                 if (_exceptionMaps.ContainsKey(exception.GetType()))
                 {
                     exception = _exceptionMaps[exception.GetType()]();
