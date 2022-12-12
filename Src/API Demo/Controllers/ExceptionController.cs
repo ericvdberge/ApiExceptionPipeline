@@ -25,5 +25,11 @@ namespace API_Demo.Controllers
         {
             throw new DbUpdateException();
         }
+
+        [HttpGet("TryUnauthorizedException")]
+        public Task TryUnauthorizedException()
+        {
+            throw new UnAuthorizedException();
+        }
     }
 }

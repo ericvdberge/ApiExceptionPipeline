@@ -44,6 +44,7 @@ namespace ApiExceptionPipelineV2._0.Middleware
                 }
 
                 var response = _exceptionService.CreateResponseObject(exception);
+                context.Response.StatusCode = Convert.ToInt16((exception as BaseException)?.StatusCode);
                 await context.Response.WriteAsync(
                     JsonConvert.SerializeObject(response)
                 );
