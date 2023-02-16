@@ -20,12 +20,19 @@ namespace API_Demo.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet("TryStandardException")]
-        public Task TryStandardException()
+        [HttpGet("TryBadRequestException")]
+        public Task TryBadRequestException()
         {
             throw _exception.BadRequest(
-                "test error", 
-                "this is the detail"
+                "this is a bad request"
+            );
+        }
+
+        [HttpGet("TryForbiddenException")]
+        public Task TryForbiddenException()
+        {
+            throw _exception.Forbidden(
+                "this is forbidden"
             );
         }
     }
