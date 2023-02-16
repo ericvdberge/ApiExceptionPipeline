@@ -17,7 +17,7 @@ namespace ApiExceptionPipelineV2._0.Services
             ExceptionDecoder = exceptionDecoder;
         }
 
-        internal IException CreateResponseObject(Exception exception)
+        internal IException CreateResponseObject(Exception exception, string instance)
         {
             _context!.Response.ContentType = "application/json";
             
@@ -32,7 +32,7 @@ namespace ApiExceptionPipelineV2._0.Services
                         Title = defaultException.Title,
                         Status = defaultException.Status,
                         Detail = defaultException.Detail,
-                        Instance = defaultException.Instance,
+                        Instance = instance,
                     };
                 case null:
                     return new ExceptionViewModel()
@@ -41,7 +41,7 @@ namespace ApiExceptionPipelineV2._0.Services
                         Title = "Unknown",
                         Status = (int)HttpStatusCode.InternalServerError,
                         Detail = "Unknown",
-                        Instance = "Unknown"
+                        Instance = instance
                     };
             }
 

@@ -1,7 +1,6 @@
-using API_Demo.Exceptions;
 using ApiExceptionPipelineV2._0.Entities;
+using ApiExceptionPipelineV2._0.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API_Demo.Controllers
 {
@@ -9,6 +8,12 @@ namespace API_Demo.Controllers
     [Route("[controller]")]
     public class ExceptionController : ControllerBase
     {
+        private readonly IException _exception;
+        public ExceptionController(IException exception)
+        {
+            _exception = exception;
+        }
+
         [HttpGet("TryNotImplementedException")]
         public Task TrySystemException()
         {
@@ -18,10 +23,9 @@ namespace API_Demo.Controllers
         [HttpGet("TryStandardException")]
         public Task TryStandardException()
         {
-            throw DefaultException.BadRequest(
+            throw _exception.BadRequest(
                 "test error", 
-                "this is the detail", 
-                "/Exception/TryStandardException"
+                "this is the detail"
             );
         }
     }

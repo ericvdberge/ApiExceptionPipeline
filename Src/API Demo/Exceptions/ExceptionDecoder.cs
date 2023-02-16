@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Net;
+﻿using System.Net;
 
 namespace API_Demo.Exceptions
 {

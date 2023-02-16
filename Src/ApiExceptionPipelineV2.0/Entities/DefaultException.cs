@@ -1,38 +1,38 @@
-﻿using System.Net;
+﻿using ApiExceptionPipelineV2._0.Interfaces;
+using System.Net;
 
 namespace ApiExceptionPipelineV2._0.Entities
 {
-    public static class DefaultException
+    public class DefaultException: IException
     {
         // StatusCode = 400
-        public static BaseException BadRequest(string title, string detail, string instance)
+        public BaseException BadRequest(string title, string detail)
          => new BaseException()
          {
              Type = "https://baseurl.nl/exceptions/badrequest",
              Title = title,
              Status = (int)HttpStatusCode.BadRequest,
              Detail = detail,
-             Instance = instance,
          };
 
         // StatusCode = 401
-        public static BaseException UnAuthorized()
+        public BaseException UnAuthorized(string title, string detail)
         => new BaseException();
 
         // StatusCode = 403
-        public static BaseException Forbidden()
+        public BaseException Forbidden(string title, string detail)
         => new BaseException();
 
         // StatusCode = 404
-        public static BaseException NotFound()
+        public BaseException NotFound(string title, string detail)
         => new BaseException();
 
         // StatusCode = 405
-        public static BaseException MethodNotAllowed()
+        public BaseException MethodNotAllowed(string title, string detail)
         => new BaseException();
 
         // StatusCode = 408
-        public static BaseException RequestTimedOut()
+        public BaseException RequestTimedOut(string title, string detail)
         => new BaseException();
     }
 }

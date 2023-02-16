@@ -1,13 +1,17 @@
 using API_Demo.Exceptions;
+using ApiExceptionPipelineV2._0.Entities;
 using ApiExceptionPipelineV2._0.Extensions;
+using ApiExceptionPipelineV2._0.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+IServiceCollection services = builder.Services;
+services.AddControllers();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+services.AddSingleton<IException, DefaultException>();
 
 var app = builder.Build();
 

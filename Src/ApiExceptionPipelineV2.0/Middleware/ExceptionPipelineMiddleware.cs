@@ -44,7 +44,8 @@ namespace ApiExceptionPipelineV2._0.Middleware
                     exception = _exceptionMaps[exception.GetType()]();
                 }
 
-                var response = _exceptionService.CreateResponseObject(exception);
+                string exceptionInstance = context.Request.Path.Value;
+                var response = _exceptionService.CreateResponseObject(exception, exceptionInstance);
                 context.Response.StatusCode = Convert.ToInt16(response.Status);
                 await context.Response.WriteAsync(
                     JsonConvert.SerializeObject(response)
