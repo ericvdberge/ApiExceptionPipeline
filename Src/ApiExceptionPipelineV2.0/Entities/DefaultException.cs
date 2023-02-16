@@ -7,7 +7,7 @@ namespace ApiExceptionPipelineV2._0.Entities
     {
         // StatusCode = 400
         public BaseException BadRequest(string title, string detail)
-         => new BaseException()
+         => new()
          {
              Type = "https://baseurl.nl/exceptions/badrequest",
              Title = title,
@@ -17,22 +17,22 @@ namespace ApiExceptionPipelineV2._0.Entities
 
         // StatusCode = 401
         public BaseException UnAuthorized(string title, string detail)
-        => new BaseException();
+        => new();
 
         // StatusCode = 403
         public BaseException Forbidden(string title, string detail)
-        => new BaseException();
+        => new();
 
         // StatusCode = 404
         public BaseException NotFound(string title, string detail)
-        => new BaseException();
+        => new();
 
         // StatusCode = 405
         public BaseException MethodNotAllowed(string title, string detail)
-        => new BaseException();
+        => new();
 
         // StatusCode = 408
         public BaseException RequestTimedOut(string title, string detail)
-        => new BaseException();
+        => new();
     }
 }
