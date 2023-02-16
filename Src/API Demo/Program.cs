@@ -28,9 +28,6 @@ app.UseCustomExceptionPipeline(
 );
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

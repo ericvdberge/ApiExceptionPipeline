@@ -13,8 +13,8 @@ namespace ApiExceptionPipelineV2._0.Middleware
         private readonly RequestDelegate _next;
 
         private ExceptionService? _exceptionService;
-        private Dictionary<Enum, (string, HttpStatusCode)> _exceptionDecoder;
-        private Dictionary<Type, Func<Exception>> _exceptionMaps = new();
+        private readonly Dictionary<Enum, (string, HttpStatusCode)> _exceptionDecoder;
+        private readonly Dictionary<Type, Func<Exception>> _exceptionMaps;
 
         public ExceptionPipelineMiddleware(
             RequestDelegate next,
@@ -29,7 +29,7 @@ namespace ApiExceptionPipelineV2._0.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            _exceptionService = new ExceptionService(context, _exceptionDecoder);
+            _exceptionService = new ExceptionService(_exceptionDecoder);
 
             try
             {
@@ -45,10 +45,14 @@ namespace ApiExceptionPipelineV2._0.Middleware
                 }
 
                 string exceptionInstance = context.Request.Path.Value;
-                var response = _exceptionService.CreateResponseObject(exception, exceptionInstance);
+                IBaseException response = _exceptionService.CreateResponseObject(exception, exceptionInstance);
+                
+                context!.Response.ContentType = "application/json";
                 context.Response.StatusCode = Convert.ToInt16(response.Status);
+
                 await context.Response.WriteAsync(
-                    JsonConvert.SerializeObject(response)
+                    // write the base exception as json
+                    JsonConvert.SerializeObject(response) 
                 );
             }
         }

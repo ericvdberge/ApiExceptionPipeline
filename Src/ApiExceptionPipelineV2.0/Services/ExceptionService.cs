@@ -8,19 +8,14 @@ namespace ApiExceptionPipelineV2._0.Services
 {
     internal class ExceptionService
     {
-        private readonly HttpContext _context;
-
         public readonly Dictionary<Enum, (string, HttpStatusCode)> ExceptionDecoder;
-        internal ExceptionService(HttpContext context, Dictionary<Enum, (string, HttpStatusCode)> exceptionDecoder)
+        internal ExceptionService(Dictionary<Enum, (string, HttpStatusCode)> exceptionDecoder)
         {
-            _context = context;
             ExceptionDecoder = exceptionDecoder;
         }
 
-        internal IException CreateResponseObject(Exception exception, string instance)
-        {
-            _context!.Response.ContentType = "application/json";
-            
+        internal IBaseException CreateResponseObject(Exception exception, string instance)
+        {   
             BaseException? defaultException = exception as BaseException;
 
             switch(defaultException)
@@ -38,9 +33,9 @@ namespace ApiExceptionPipelineV2._0.Services
                     return new ExceptionViewModel()
                     {
                         Type = "__blank__",
-                        Title = "Unknown",
+                        Title = exception.GetType().Name.Replace("Exception", ""),
                         Status = (int)HttpStatusCode.InternalServerError,
-                        Detail = "Unknown",
+                        Detail = exception.Message,
                         Instance = instance
                     };
             }
