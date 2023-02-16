@@ -1,4 +1,5 @@
 ﻿using ApiExceptionPipelineV2._0.Entities;
+using ApiExceptionPipelineV2._0.Interfaces;
 using ApiExceptionPipelineV2._0.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System.Net;
@@ -7,41 +8,43 @@ namespace ApiExceptionPipelineV2._0.Services
 {
     internal class ExceptionService
     {
-        private HttpContext _context;
+        private readonly HttpContext _context;
 
-        public static Dictionary<Enum, (string, HttpStatusCode)> ExceptionDecoder = new();
+        public readonly Dictionary<Enum, (string, HttpStatusCode)> ExceptionDecoder;
         internal ExceptionService(HttpContext context, Dictionary<Enum, (string, HttpStatusCode)> exceptionDecoder)
         {
             _context = context;
             ExceptionDecoder = exceptionDecoder;
         }
 
-        internal ExceptionViewModel CreateResponseObject(Exception exception)
+        internal IException CreateResponseObject(Exception exception)
         {
-
             _context!.Response.ContentType = "application/json";
+            
+            BaseException? defaultException = exception as BaseException;
 
-            ExceptionViewModel response = new ExceptionViewModel
+            switch(defaultException)
             {
-                StatusCode = 500,
-                Message = string.Empty,
-            };
-
-            var exceptionTypeName = exception.GetType()!.BaseType!.Name;
-
-            switch (exceptionTypeName)
-            {
-                case nameof(BaseException):
-                    response.StatusCode = (int)(exception as BaseException)!.StatusCode;
-                    response.Message = (exception as BaseException)!.Message;
-                    break;
-                default:
-                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    response.Message = "An internal error accured. Please try again later";
-                    break;
+                case not null:
+                    return new ExceptionViewModel()
+                    {
+                        Type = defaultException.Type,
+                        Title = defaultException.Title,
+                        Status = defaultException.Status,
+                        Detail = defaultException.Detail,
+                        Instance = defaultException.Instance,
+                    };
+                case null:
+                    return new ExceptionViewModel()
+                    {
+                        Type = "__blank__",
+                        Title = "Unknown",
+                        Status = (int)HttpStatusCode.InternalServerError,
+                        Detail = "Unknown",
+                        Instance = "Unknown"
+                    };
             }
 
-            return response;
         }
     }
 }

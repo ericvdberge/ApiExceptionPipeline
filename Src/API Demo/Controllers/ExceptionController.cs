@@ -1,4 +1,5 @@
 using API_Demo.Exceptions;
+using ApiExceptionPipelineV2._0.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,28 +9,20 @@ namespace API_Demo.Controllers
     [Route("[controller]")]
     public class ExceptionController : ControllerBase
     {
-        [HttpGet("TrySystemException")]
+        [HttpGet("TryNotImplementedException")]
         public Task TrySystemException()
         {
-            throw new Exception();
+            throw new NotImplementedException();
         }
 
-        [HttpGet("TryCustomException")]
-        public Task TryCustomException()
+        [HttpGet("TryStandardException")]
+        public Task TryStandardException()
         {
-            throw new LostConnectionException();
-        }
-
-        [HttpGet("TryMappedException")]
-        public Task TryMappedException()
-        {
-            throw new DbUpdateException();
-        }
-
-        [HttpGet("TryUnauthorizedException")]
-        public Task TryUnauthorizedException()
-        {
-            throw new UnAuthorizedException();
+            throw DefaultException.BadRequest(
+                "test error", 
+                "this is the detail", 
+                "/Exception/TryStandardException"
+            );
         }
     }
 }

@@ -4,8 +4,10 @@ namespace ApiExceptionPipelineV2._0.Interfaces
 {
     internal interface IException
     {
-        public HttpStatusCode StatusCode { get; set; }
-        public Enum TypeCode { get; set; }
-        public string Message { get; set; }
+        public string Type { get; init; }
+        public string Title { get; init; }
+        public int Status { get; init; }
+        public string Detail { get; init; }
+        public string Instance { get; init; }
     }
 }

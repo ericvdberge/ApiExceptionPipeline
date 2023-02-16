@@ -1,8 +1,13 @@
-﻿namespace ApiExceptionPipelineV2._0.ViewModels
+﻿using ApiExceptionPipelineV2._0.Interfaces;
+
+namespace ApiExceptionPipelineV2._0.ViewModels
 {
-    internal class ExceptionViewModel
+    internal class ExceptionViewModel : IException
     {
-        public int StatusCode { get; set; }
-        public string Message { get; set; } = string.Empty;
+        public string Type { get; init; } = string.Empty;
+        public int Status { get; init; }
+        public string Title { get; init; } = string.Empty;
+        public string Detail { get; init; } = string.Empty; 
+        public string Instance { get; init; } = string.Empty; 
     }
 }

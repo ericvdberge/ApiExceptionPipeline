@@ -1,4 +1,5 @@
 ﻿using ApiExceptionPipelineV2._0.Entities;
+using ApiExceptionPipelineV2._0.Interfaces;
 using ApiExceptionPipelineV2._0.Services;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -44,7 +45,7 @@ namespace ApiExceptionPipelineV2._0.Middleware
                 }
 
                 var response = _exceptionService.CreateResponseObject(exception);
-                context.Response.StatusCode = Convert.ToInt16((exception as BaseException)?.StatusCode);
+                context.Response.StatusCode = Convert.ToInt16(response.Status);
                 await context.Response.WriteAsync(
                     JsonConvert.SerializeObject(response)
                 );

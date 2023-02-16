@@ -19,7 +19,7 @@ namespace API_Demo.Exceptions
 
         public static Dictionary<Type, Func<Exception>> CustomExceptionMaps { get; set; } = new Dictionary<Type, Func<Exception>>()
         {
-            { typeof(DbUpdateException), () => new LostConnectionException() },
+            //{ typeof(DbUpdateException), () => new LostConnectionException() },
         };
     }
 }
