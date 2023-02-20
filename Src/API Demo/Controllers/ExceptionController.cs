@@ -1,5 +1,4 @@
-using ApiExceptionPipelineV2._0.Entities;
-using ApiExceptionPipelineV2._0.Interfaces;
+using API_Demo.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_Demo.Controllers
@@ -8,10 +7,10 @@ namespace API_Demo.Controllers
     [Route("[controller]")]
     public class ExceptionController : ControllerBase
     {
-        private readonly IException _exception;
-        public ExceptionController(IException exception)
+        private readonly IExceptionService _exceptionService;
+        public ExceptionController(IExceptionService exception)
         {
-            _exception = exception;
+            _exceptionService = exception;
         }
 
         [HttpGet("TryNotImplementedException")]
@@ -23,7 +22,7 @@ namespace API_Demo.Controllers
         [HttpGet("TryBadRequestException")]
         public Task TryBadRequestException()
         {
-            throw _exception.BadRequest(
+            throw _exceptionService.BadRequest(
                 "this is a bad request"
             );
         }
@@ -31,8 +30,16 @@ namespace API_Demo.Controllers
         [HttpGet("TryForbiddenException")]
         public Task TryForbiddenException()
         {
-            throw _exception.Forbidden(
+            throw _exceptionService.Forbidden(
                 "this is forbidden"
+            );
+        }
+
+        [HttpGet("TryCustomException")]
+        public Task TryCustomException()
+        {
+            throw _exceptionService.CustomException(
+                "this is a custom problem"
             );
         }
     }

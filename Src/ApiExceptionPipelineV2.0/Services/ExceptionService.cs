@@ -15,7 +15,7 @@ namespace ApiExceptionPipelineV2._0.Services
         }
 
         internal IBaseException CreateResponseObject(Exception exception, string instance)
-        {   
+        {
             BaseException? defaultException = exception as BaseException;
 
             switch(defaultException)

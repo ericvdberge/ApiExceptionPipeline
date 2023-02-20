@@ -1,4 +1,6 @@
 using API_Demo.Exceptions;
+using API_Demo.Interfaces;
+using API_Demo.Services;
 using ApiExceptionPipelineV2._0.Entities;
 using ApiExceptionPipelineV2._0.Extensions;
 using ApiExceptionPipelineV2._0.Interfaces;
@@ -11,7 +13,7 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
-services.AddSingleton<IException, DefaultException>();
+services.AddSingleton<IExceptionService, ExceptionService>();
 
 var app = builder.Build();
 
