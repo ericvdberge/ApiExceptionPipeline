@@ -1,4 +1,5 @@
 ﻿using ApiExceptionPipelineV2._0.Interfaces;
+using ApiExceptionPipelineV2._0.Utils;
 
 namespace ApiExceptionPipelineV2._0.ViewModels
 {
@@ -6,7 +7,19 @@ namespace ApiExceptionPipelineV2._0.ViewModels
     {
         public string Type { get; init; } = string.Empty;
         public int Status { get; init; }
-        public string Title { get; init; } = string.Empty;
+
+        private string title = string.Empty;
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+            init
+            {
+                title = TextFormatter.SeperateCapatalizationText(value);
+            }
+        }
         public string Detail { get; init; } = string.Empty; 
         public string Instance { get; init; } = string.Empty; 
     }

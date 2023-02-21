@@ -6,7 +6,7 @@ namespace ApiExceptionPipelineV2._0.Entities
     public class DefaultException: IException
     {
         // StatusCode = 400
-        public BaseException BadRequest(string detail)
+        public virtual BaseException BadRequest(string detail)
          => new()
          {
              Type = "https://baseurl.nl/exceptions/badrequest",
@@ -16,7 +16,7 @@ namespace ApiExceptionPipelineV2._0.Entities
          };
 
         // StatusCode = 401
-        public BaseException UnAuthorized(string detail)
+        public virtual BaseException UnAuthorized(string detail)
         => new()
         {
             Type = "https://baseurl.nl/exceptions/unauthorized",
@@ -26,7 +26,7 @@ namespace ApiExceptionPipelineV2._0.Entities
         };
 
         // StatusCode = 403
-        public BaseException Forbidden(string detail)
+        public virtual BaseException Forbidden(string detail)
         => new()
         {
             Type = "https://baseurl.nl/exceptions/forbidden",
@@ -36,7 +36,7 @@ namespace ApiExceptionPipelineV2._0.Entities
         };
 
         // StatusCode = 404
-        public BaseException NotFound(string detail)
+        public virtual BaseException NotFound(string detail)
         => new()
         {
             Type = "https://baseurl.nl/exceptions/notfound",
@@ -46,7 +46,7 @@ namespace ApiExceptionPipelineV2._0.Entities
         };
 
         // StatusCode = 405
-        public BaseException MethodNotAllowed(string detail)
+        public virtual BaseException MethodNotAllowed(string detail)
         => new()
         {
             Type = "https://baseurl.nl/exceptions/methodnotallowed",
@@ -56,7 +56,7 @@ namespace ApiExceptionPipelineV2._0.Entities
         };
 
         // StatusCode = 408
-        public BaseException RequestTimedOut(string detail)
+        public virtual BaseException RequestTimedOut(string detail)
         => new()
         {
             Type = "https://baseurl.nl/exceptions/requesttimedout",

@@ -13,23 +13,15 @@ namespace ApiExceptionPipelineV2._0.Middleware
         private readonly RequestDelegate _next;
 
         private ExceptionService? _exceptionService;
-        private readonly Dictionary<Enum, (string, HttpStatusCode)> _exceptionDecoder;
-        private readonly Dictionary<Type, Func<Exception>> _exceptionMaps;
 
-        public ExceptionPipelineMiddleware(
-            RequestDelegate next,
-            Dictionary<Enum, (string, HttpStatusCode)> exceptionDecoder,
-            Dictionary<Type, Func<Exception>> exceptionMaps
-        )
+        public ExceptionPipelineMiddleware(RequestDelegate next)
         {
             _next = next;
-            _exceptionDecoder = exceptionDecoder;
-            _exceptionMaps = exceptionMaps;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            _exceptionService = new ExceptionService(_exceptionDecoder);
+            _exceptionService = new ExceptionService();
 
             try
             {
@@ -38,12 +30,6 @@ namespace ApiExceptionPipelineV2._0.Middleware
             }
             catch (Exception exception)
             {
-                //get the information about the mapped exception
-                if (_exceptionMaps.ContainsKey(exception.GetType()))
-                {
-                    exception = _exceptionMaps[exception.GetType()]();
-                }
-
                 string exceptionInstance = context.Request.Path.Value;
                 IBaseException response = _exceptionService.CreateResponseObject(exception, exceptionInstance);
                 

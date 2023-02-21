@@ -14,9 +14,9 @@ namespace API_Demo.Controllers
         }
 
         [HttpGet("TryNotImplementedException")]
-        public Task TrySystemException()
+        public Task TryNotImplementedException()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("... is not implemented");
         }
 
         [HttpGet("TryBadRequestException")]

@@ -16,5 +16,16 @@ namespace API_Demo.Services
                 Detail = detail,
             };
         }
+
+        public override BaseException BadRequest(string detail)
+        {
+            return new()
+            {
+                Type = "https://baseurl.nl/exceptions/badrequestcustom",
+                Title = nameof(BadRequest),
+                Status = (int)HttpStatusCode.BadRequest,
+                Detail = detail,
+            };
+        }
     }
 }

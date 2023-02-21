@@ -7,10 +7,8 @@ namespace ApiExceptionPipelineV2._0.Extensions
     public static class ExceptionPipelineExtensions
     {
         public static IApplicationBuilder UseCustomExceptionPipeline(
-            this IApplicationBuilder builder,
-            Dictionary<Enum, (string, HttpStatusCode)> exceptionDecoder,
-            Dictionary<Type, Func<Exception>> exceptionMaps
+            this IApplicationBuilder builder
         ) => 
-            builder.UseMiddleware<ExceptionPipelineMiddleware>(exceptionDecoder, exceptionMaps);
+            builder.UseMiddleware<ExceptionPipelineMiddleware>();
     }
 }

@@ -1,4 +1,3 @@
-using API_Demo.Exceptions;
 using API_Demo.Interfaces;
 using API_Demo.Services;
 using ApiExceptionPipelineV2._0.Entities;
@@ -24,10 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCustomExceptionPipeline(
-    exceptionDecoder: ExceptionDecoder.CustomExceptions,
-    exceptionMaps: ExceptionDecoder.CustomExceptionMaps
-);
+app.UseCustomExceptionPipeline();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
