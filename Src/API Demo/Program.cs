@@ -15,6 +15,7 @@ services.AddSwaggerGen();
 services.AddSingleton<IExceptionService, ExceptionService>();
 
 var app = builder.Build();
+IConfiguration configuration = app.Configuration;
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -23,7 +24,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCustomExceptionPipeline();
+
+//get exception options from appsettings.json
+ExceptionOptions options = new();
+configuration.GetSection("ExceptionOptions")
+    .Bind(options);
+//use the exception options to pass into the exception pipeline
+app.UseCustomExceptionPipeline(options);
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

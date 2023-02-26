@@ -7,7 +7,7 @@ namespace ApiExceptionPipelineV2._0.Services
 {
     internal class ExceptionService
     {
-        internal IBaseException CreateResponseObject(Exception exception, string instance)
+        internal IBaseException CreateResponseObject(Exception exception, string instance, string typeBaseUrl)
         {
             IBaseException? defaultException = exception as BaseException;
 
@@ -16,7 +16,7 @@ namespace ApiExceptionPipelineV2._0.Services
                 case not null:
                     return new ExceptionViewModel()
                     {
-                        Type = defaultException.Type,
+                        Type = $"{typeBaseUrl}{defaultException.Type}",
                         Title = defaultException.Title,
                         Status = defaultException.Status,
                         Detail = defaultException.Detail,

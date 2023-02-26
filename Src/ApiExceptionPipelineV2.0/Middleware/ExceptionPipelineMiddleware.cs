@@ -12,17 +12,24 @@ namespace ApiExceptionPipelineV2._0.Middleware
     {
         private readonly RequestDelegate _next;
 
-        private ExceptionService? _exceptionService;
+        private readonly ExceptionService? _exceptionService;
+        private readonly ExceptionOptions? _options;
 
         public ExceptionPipelineMiddleware(RequestDelegate next)
         {
             _next = next;
+            _exceptionService = new ExceptionService();
+        }
+
+        public ExceptionPipelineMiddleware(RequestDelegate next, ExceptionOptions options)
+        {
+            _next = next;
+            _options = options;
+            _exceptionService = new ExceptionService();
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            _exceptionService = new ExceptionService();
-
             try
             {
                 // Call the next delegate/middleware in the pipeline.
@@ -30,11 +37,14 @@ namespace ApiExceptionPipelineV2._0.Middleware
             }
             catch (Exception exception)
             {
+                if (_exceptionService is null) return;
+                
+                string typeBaseUrl = _options?.TypeBaseUrl ?? string.Empty;
                 string exceptionInstance = context.Request.Path.Value;
-                IBaseException response = _exceptionService.CreateResponseObject(exception, exceptionInstance);
+                IBaseException response = _exceptionService.CreateResponseObject(exception, exceptionInstance, typeBaseUrl);
                 
                 context!.Response.ContentType = "application/json";
-                context.Response.StatusCode = Convert.ToInt16(response.Status);
+                context.Response.StatusCode = Convert.ToInt32(response.Status);
 
                 await context.Response.WriteAsync(
                     // write the base exception as json

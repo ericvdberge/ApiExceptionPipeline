@@ -3,13 +3,13 @@ using System.Net;
 
 namespace ApiExceptionPipelineV2._0.Entities
 {
-    public class DefaultException: IException
+    public class DefaultException : IException
     {
         // StatusCode = 400
         public virtual BaseException BadRequest(string detail)
          => new()
          {
-             Type = "https://baseurl.nl/exceptions/badrequest",
+             Type = "/badrequest",
              Title = nameof(BadRequest),
              Status = (int)HttpStatusCode.BadRequest,
              Detail = detail,
@@ -19,7 +19,7 @@ namespace ApiExceptionPipelineV2._0.Entities
         public virtual BaseException UnAuthorized(string detail)
         => new()
         {
-            Type = "https://baseurl.nl/exceptions/unauthorized",
+            Type = "/unauthorized",
             Title = nameof(UnAuthorized),
             Status = (int)HttpStatusCode.Unauthorized,
             Detail = detail,
@@ -29,7 +29,7 @@ namespace ApiExceptionPipelineV2._0.Entities
         public virtual BaseException Forbidden(string detail)
         => new()
         {
-            Type = "https://baseurl.nl/exceptions/forbidden",
+            Type = "/forbidden",
             Title = nameof(Forbidden),
             Status = (int)HttpStatusCode.Forbidden,
             Detail = detail,
@@ -39,7 +39,7 @@ namespace ApiExceptionPipelineV2._0.Entities
         public virtual BaseException NotFound(string detail)
         => new()
         {
-            Type = "https://baseurl.nl/exceptions/notfound",
+            Type = "/notfound",
             Title = nameof(NotFound),
             Status = (int)HttpStatusCode.NotFound,
             Detail = detail,
@@ -49,7 +49,7 @@ namespace ApiExceptionPipelineV2._0.Entities
         public virtual BaseException MethodNotAllowed(string detail)
         => new()
         {
-            Type = "https://baseurl.nl/exceptions/methodnotallowed",
+            Type = "/methodnotallowed",
             Title = nameof(MethodNotAllowed),
             Status = (int)HttpStatusCode.MethodNotAllowed,
             Detail = detail,
@@ -59,7 +59,7 @@ namespace ApiExceptionPipelineV2._0.Entities
         public virtual BaseException RequestTimedOut(string detail)
         => new()
         {
-            Type = "https://baseurl.nl/exceptions/requesttimedout",
+            Type = "/requesttimedout",
             Title = nameof(RequestTimedOut),
             Status = (int)HttpStatusCode.RequestTimeout,
             Detail = detail,

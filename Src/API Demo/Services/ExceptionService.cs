@@ -10,7 +10,7 @@ namespace API_Demo.Services
         {
             return new()
             {
-                Type = "https://baseurl.nl/exceptions/customException",
+                Type = "/customException",
                 Title = nameof(CustomException),
                 Status = (int)HttpStatusCode.BadRequest,
                 Detail = detail,
@@ -21,7 +21,7 @@ namespace API_Demo.Services
         {
             return new()
             {
-                Type = "https://baseurl.nl/exceptions/badrequestcustom",
+                Type = "/badrequestcustom",
                 Title = nameof(BadRequest),
                 Status = (int)HttpStatusCode.BadRequest,
                 Detail = detail,

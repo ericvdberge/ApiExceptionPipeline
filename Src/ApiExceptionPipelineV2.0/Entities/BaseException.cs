@@ -5,7 +5,7 @@ namespace ApiExceptionPipelineV2._0.Entities
 {
     // The properties of the Exception class are based on the RFC7807 standard
     // https://datatracker.ietf.org/doc/html/rfc7807
-    public class BaseException: Exception, IBaseException
+    public class BaseException : Exception, IBaseException
     {
         /// <summary>
         /// "type" (string) - A URI reference [RFC3986] that identifies the
