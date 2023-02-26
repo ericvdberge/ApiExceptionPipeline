@@ -1,11 +1,14 @@
-﻿using System.Net;
+﻿using ApiExceptionPipelineV2._0.Entities;
 
 namespace ApiExceptionPipelineV2._0.Interfaces
 {
-    internal interface IException
+    public interface IException
     {
-        public HttpStatusCode StatusCode { get; set; }
-        public Enum TypeCode { get; set; }
-        public string Message { get; set; }
+        public BaseException BadRequest(string detail);
+        public BaseException UnAuthorized(string detail);
+        public BaseException Forbidden(string detail);
+        public BaseException NotFound(string detail);
+        public BaseException MethodNotAllowed(string detail);
+        public BaseException RequestTimedOut(string detail);
     }
 }

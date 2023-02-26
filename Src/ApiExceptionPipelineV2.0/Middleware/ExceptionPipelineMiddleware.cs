@@ -1,4 +1,5 @@
 ﻿using ApiExceptionPipelineV2._0.Entities;
+using ApiExceptionPipelineV2._0.Interfaces;
 using ApiExceptionPipelineV2._0.Services;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -11,25 +12,24 @@ namespace ApiExceptionPipelineV2._0.Middleware
     {
         private readonly RequestDelegate _next;
 
-        private ExceptionService? _exceptionService;
-        private Dictionary<Enum, (string, HttpStatusCode)> _exceptionDecoder;
-        private Dictionary<Type, Func<Exception>> _exceptionMaps = new();
+        private readonly ExceptionService? _exceptionService;
+        private readonly ExceptionOptions? _options;
 
-        public ExceptionPipelineMiddleware(
-            RequestDelegate next,
-            Dictionary<Enum, (string, HttpStatusCode)> exceptionDecoder,
-            Dictionary<Type, Func<Exception>> exceptionMaps
-        )
+        public ExceptionPipelineMiddleware(RequestDelegate next)
         {
             _next = next;
-            _exceptionDecoder = exceptionDecoder;
-            _exceptionMaps = exceptionMaps;
+            _exceptionService = new ExceptionService();
+        }
+
+        public ExceptionPipelineMiddleware(RequestDelegate next, ExceptionOptions options)
+        {
+            _next = next;
+            _options = options;
+            _exceptionService = new ExceptionService();
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            _exceptionService = new ExceptionService(context, _exceptionDecoder);
-
             try
             {
                 // Call the next delegate/middleware in the pipeline.
@@ -37,16 +37,18 @@ namespace ApiExceptionPipelineV2._0.Middleware
             }
             catch (Exception exception)
             {
-                //get the information about the mapped exception
-                if (_exceptionMaps.ContainsKey(exception.GetType()))
-                {
-                    exception = _exceptionMaps[exception.GetType()]();
-                }
+                if (_exceptionService is null) return;
+                
+                string typeBaseUrl = _options?.TypeBaseUrl ?? string.Empty;
+                string exceptionInstance = context.Request.Path.Value;
+                IBaseException response = _exceptionService.CreateResponseObject(exception, exceptionInstance, typeBaseUrl);
+                
+                context!.Response.ContentType = "application/json";
+                context.Response.StatusCode = Convert.ToInt32(response.Status);
 
-                var response = _exceptionService.CreateResponseObject(exception);
-                context.Response.StatusCode = Convert.ToInt16((exception as BaseException)?.StatusCode);
                 await context.Response.WriteAsync(
-                    JsonConvert.SerializeObject(response)
+                    // write the base exception as json
+                    JsonConvert.SerializeObject(response) 
                 );
             }
         }

@@ -1,6 +1,5 @@
-using API_Demo.Exceptions;
+using API_Demo.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API_Demo.Controllers
 {
@@ -8,28 +7,40 @@ namespace API_Demo.Controllers
     [Route("[controller]")]
     public class ExceptionController : ControllerBase
     {
-        [HttpGet("TrySystemException")]
-        public Task TrySystemException()
+        private readonly IExceptionService _exceptionService;
+        public ExceptionController(IExceptionService exception)
         {
-            throw new Exception();
+            _exceptionService = exception;
+        }
+
+        [HttpGet("TryNotImplementedException")]
+        public Task TryNotImplementedException()
+        {
+            throw new NotImplementedException("... is not implemented");
+        }
+
+        [HttpGet("TryBadRequestException")]
+        public Task TryBadRequestException()
+        {
+            throw _exceptionService.BadRequest(
+                "this is a bad request"
+            );
+        }
+
+        [HttpGet("TryForbiddenException")]
+        public Task TryForbiddenException()
+        {
+            throw _exceptionService.Forbidden(
+                "this is forbidden"
+            );
         }
 
         [HttpGet("TryCustomException")]
         public Task TryCustomException()
         {
-            throw new LostConnectionException();
-        }
-
-        [HttpGet("TryMappedException")]
-        public Task TryMappedException()
-        {
-            throw new DbUpdateException();
-        }
-
-        [HttpGet("TryUnauthorizedException")]
-        public Task TryUnauthorizedException()
-        {
-            throw new UnAuthorizedException();
+            throw _exceptionService.CustomException(
+                "this is a custom problem"
+            );
         }
     }
 }
