@@ -19,6 +19,7 @@ dotnet add package ApiExceptionPipeline
 ```
 ## Configuration
 In order to use the package, we need to configure the .NET 6 WebApi project first. You can do that by following these steps:
+> You can also clone the project and navigate to Src/Api Demo to check out a demo project and the necessary configuration there.
 ### Configure Middleware
 The system needs to catch the exceptions that are thrown in the code. In order to do that, we need a middleware. You can add it by adding the line commented in the code block below.<br>
 **Option 1**
